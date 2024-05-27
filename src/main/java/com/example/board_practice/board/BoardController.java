@@ -1,10 +1,8 @@
 package com.example.board_practice.board;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,5 +36,14 @@ public class BoardController {
                     .createdAt(board.getCreatedAt())
                     .id(board.getId())
                     .build();
+    }
+
+    @PostMapping("/create")
+    String postCreateBoard (@RequestBody @Valid Request board) {
+        BoardEntity newBoard = new BoardEntity(board.getTitle(), board.getContent());
+
+        boardRepository.save(newBoard);
+
+        return "200 success";
     }
 }

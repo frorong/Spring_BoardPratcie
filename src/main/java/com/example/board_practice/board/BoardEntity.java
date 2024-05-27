@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -22,5 +21,10 @@ public class BoardEntity {
     @Column(name="content", nullable=false)
     private String content;
     @Column(name="createdAt", nullable=false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    BoardEntity (String title, String content) {
+        this.title = title.trim();
+        this.content = content.trim();
+    }
 }
