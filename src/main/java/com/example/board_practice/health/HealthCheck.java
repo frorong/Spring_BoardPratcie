@@ -1,13 +1,12 @@
-package com.example.board_practice.endpoints;
+package com.example.board_practice.health;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1/board")
+
 @RestController
-public class Endpoints {
-    @GetMapping("/health")
+public class HealthCheck {
+    @GetMapping("/api/v1/board/health")
     String healthCheck() {
         return "200 ok";
     }
