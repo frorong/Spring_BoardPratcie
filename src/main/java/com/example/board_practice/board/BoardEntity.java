@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name="title", nullable=false)
     private String title;
     @Column(name="content", nullable=false)

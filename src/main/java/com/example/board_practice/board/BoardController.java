@@ -2,6 +2,7 @@ package com.example.board_practice.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +26,17 @@ public class BoardController {
                         .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    Response getBoardDetail (@PathVariable("id") Integer id) {
+        BoardEntity board = boardRepository.findById(id).orElse(null);
+
+        return Response.builder()
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .createdAt(board.getCreatedAt())
+                    .id(board.getId())
+                    .build();
     }
 }
