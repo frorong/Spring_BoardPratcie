@@ -2,6 +2,8 @@ package com.example.board_practice.board;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,11 +41,11 @@ public class BoardController {
     }
 
     @PostMapping("/create")
-    String postCreateBoard (@RequestBody @Valid Request board) {
+    ResponseEntity postCreateBoard (@RequestBody @Valid Request board) {
         BoardEntity newBoard = new BoardEntity(board.getTitle(), board.getContent());
 
         boardRepository.save(newBoard);
 
-        return "200 success";
+        return ResponseEntity.ok(newBoard);
     }
 }
