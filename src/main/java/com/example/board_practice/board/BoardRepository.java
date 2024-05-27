@@ -1,19 +1,7 @@
 package com.example.board_practice.board;
 
-import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
+public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
-@Entity
-@Table(name="board")
-public class BoardRepository {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name="title", nullable=false)
-    private String title;
-    @Column(name="content", nullable=false)
-    private String content;
-    @Column(name="createdAt", nullable=false)
-    private LocalDateTime createdAt;
 }
