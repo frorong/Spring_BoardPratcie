@@ -37,7 +37,7 @@ public class BoardController {
     }
 
     @PatchMapping("/{id}")
-    org.springframework.http.ResponseEntity updateBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
+    org.springframework.http.ResponseEntity patchBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
         BoardEntity updatedBoard = boardServiece.updateBoard(id, boardRequest);
 
         return org.springframework.http.ResponseEntity.ok(updatedBoard);
