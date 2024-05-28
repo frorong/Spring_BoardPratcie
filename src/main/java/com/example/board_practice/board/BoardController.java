@@ -2,7 +2,6 @@ package com.example.board_practice.board;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +46,12 @@ public class BoardController {
         boardRepository.save(newBoard);
 
         return ResponseEntity.ok(newBoard);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity deleteBoard (@PathVariable("id") Integer id) {
+        boardRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 }
