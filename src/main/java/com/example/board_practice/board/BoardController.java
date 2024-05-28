@@ -12,10 +12,9 @@ import java.util.Optional;
 @RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
 public class BoardController {
-    private final BoardRepository boardRepository;
     BoardServiece boardServiece;
 
-    @GetMapping("/list")
+    @GetMapping()
     List<ResponseEntity> getBoardList() {
         return boardServiece.findBoardList();
     }
@@ -25,21 +24,21 @@ public class BoardController {
         return boardServiece.findBoardById(id);
     }
 
-    @PostMapping("/create")
-    org.springframework.http.ResponseEntity postCreateBoard(@RequestBody @Valid RequestEntity requestEntity) {
+    @PostMapping()
+    org.springframework.http.ResponseEntity postBoard(@RequestBody @Valid RequestEntity requestEntity) {
         BoardEntity createdBoard = boardServiece.saveBoard(requestEntity);
 
         return org.springframework.http.ResponseEntity.ok(createdBoard);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     org.springframework.http.ResponseEntity deleteBoard(@PathVariable("id") Integer id) {
         boardServiece.deleteBoard(id);
 
         return org.springframework.http.ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     org.springframework.http.ResponseEntity updateBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
         Optional<BoardEntity> updatedBoard = boardServiece.updateBoard(id, boardRequest);
 
