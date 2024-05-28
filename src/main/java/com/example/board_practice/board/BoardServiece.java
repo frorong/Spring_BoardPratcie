@@ -1,6 +1,8 @@
 package com.example.board_practice.board;
 
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,16 +44,16 @@ public class BoardServiece {
     }
 
     @Transactional
-    Optional<BoardEntity> updateBoard(Integer id, RequestEntity requestEntity) {
+    BoardEntity updateBoard(Integer id, RequestEntity requestEntity) {
         Optional<BoardEntity> targetBoardEntity = boardRepository.findById(id);
 
         if (targetBoardEntity.isPresent()) {
             BoardEntity newBoard = new BoardEntity(requestEntity.getTitle(), requestEntity.getContent(), id);
 
             boardRepository.save(newBoard);
-            return Optional.of(newBoard);
+            return newBoard;
         }
 
-        return Optional.empty();
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id Not Found");
     }
 }

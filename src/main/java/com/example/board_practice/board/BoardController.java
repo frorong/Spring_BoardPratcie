@@ -2,11 +2,9 @@ package com.example.board_practice.board;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/board")
@@ -40,11 +38,7 @@ public class BoardController {
 
     @PatchMapping("/{id}")
     org.springframework.http.ResponseEntity updateBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
-        Optional<BoardEntity> updatedBoard = boardServiece.updateBoard(id, boardRequest);
-
-        if (updatedBoard.isEmpty()) {
-            return org.springframework.http.ResponseEntity.status(HttpStatus.NOT_FOUND).body("Board not found");
-        }
+        BoardEntity updatedBoard = boardServiece.updateBoard(id, boardRequest);
 
         return org.springframework.http.ResponseEntity.ok(updatedBoard);
     }
