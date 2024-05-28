@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +17,10 @@ public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Setter
     @Column(name="title", nullable=false)
     private String title;
+    @Setter
     @Column(name="content", nullable=false)
     private String content;
     @Column(name="createdAt", nullable=false)
@@ -27,4 +30,5 @@ public class BoardEntity {
         this.title = title.trim();
         this.content = content.trim();
     }
+
 }

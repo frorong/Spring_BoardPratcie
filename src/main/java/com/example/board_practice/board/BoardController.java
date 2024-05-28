@@ -2,10 +2,12 @@ package com.example.board_practice.board;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -53,5 +55,23 @@ public class BoardController {
         boardRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/update/{id}")
+    ResponseEntity updateBoard(@PathVariable("id") Integer id, @RequestBody @Valid Request boardRequest) {
+        Optional<BoardEntity> targetBoardEntity = boardRepository.findById(id);
+
+        if (targetBoardEntity.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Board not found");
+        }
+
+        BoardEntity boardEntity = targetBoardEntity.get();
+
+        boardEntity.setTitle(boardRequest.getTitle());
+        boardEntity.setContent(boardRequest.getContent());
+
+        boardRepository.save(boardEntity);
+
+        return ResponseEntity.ok(boardEntity);
     }
 }
