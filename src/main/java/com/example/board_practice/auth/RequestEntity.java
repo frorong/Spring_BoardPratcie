@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class SigninRequestEntity {
+public class RequestEntity {
     @NotBlank
     private String email;
     @NotBlank
