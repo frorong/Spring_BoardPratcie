@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class Response {
+public class ResponseEntity {
     private String title;
     private String content;
     private Integer id;
