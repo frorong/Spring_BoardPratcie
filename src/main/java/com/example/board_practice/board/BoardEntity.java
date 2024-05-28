@@ -1,10 +1,8 @@
 package com.example.board_practice.board;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
@@ -12,23 +10,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Table(name="board")
+@Table(name = "board")
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Setter
-    @Column(name="title", nullable=false)
+    @Column(name = "title", nullable = false)
     private String title;
     @Setter
-    @Column(name="content", nullable=false)
+    @Column(name = "content", nullable = false)
     private String content;
-    @Column(name="createdAt", nullable=false)
+    @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    BoardEntity (String title, String content) {
-        this.title = title.trim();
-        this.content = content.trim();
+    @Builder
+    public BoardEntity(String title, String content) {
+        Assert.hasText(title, "Title cannot be empty");
+        Assert.hasText(content, "Content cannot be empty");
+        
+        this.title = title;
+        this.content = content;
     }
-
 }
