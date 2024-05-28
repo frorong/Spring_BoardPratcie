@@ -29,14 +29,14 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @Builder
-    void UserEntity(String email, String password, String auth) {
+    public UserEntity(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
+        return List.of(new SimpleGrantedAuthority("USER"));
     }
 
     @Override
