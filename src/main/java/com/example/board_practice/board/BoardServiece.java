@@ -46,12 +46,10 @@ public class BoardServiece {
         Optional<BoardEntity> targetBoardEntity = boardRepository.findById(id);
 
         if (targetBoardEntity.isPresent()) {
-            BoardEntity targetBoard = targetBoardEntity.get();
-            targetBoard.setTitle(requestEntity.getTitle());
-            targetBoard.setContent(requestEntity.getContent());
+            BoardEntity newBoard = new BoardEntity(requestEntity.getTitle(), requestEntity.getContent(), id);
 
-            boardRepository.save(targetBoard);
-            return Optional.of(targetBoard);
+            boardRepository.save(newBoard);
+            return Optional.of(newBoard);
         }
 
         return Optional.empty();
