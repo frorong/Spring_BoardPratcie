@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class BoardServiece {
+public class BoardService {
     private final BoardRepository boardRepository;
 
-    public BoardServiece(BoardRepository boardRepository) {
+    public BoardService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
 
