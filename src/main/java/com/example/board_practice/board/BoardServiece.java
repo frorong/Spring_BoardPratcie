@@ -1,6 +1,9 @@
 package com.example.board_practice.board;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BoardServiece {
@@ -26,5 +29,31 @@ public class BoardServiece {
                 .build();
     }
 
+    BoardEntity saveBoard(RequestEntity requestEntity) {
+        BoardEntity newBoard = new BoardEntity(requestEntity.getTitle(), requestEntity.getContent());
 
+        boardRepository.save(newBoard);
+
+        return newBoard;
+    }
+
+    void deleteBoard(Integer id) {
+        boardRepository.deleteById(id);
+    }
+
+    @Transactional
+    Optional<BoardEntity> updateBoard(Integer id, RequestEntity requestEntity) {
+        Optional<BoardEntity> targetBoardEntity = boardRepository.findById(id);
+
+        if (targetBoardEntity.isPresent()) {
+            BoardEntity targetBoard = targetBoardEntity.get();
+            targetBoard.setTitle(requestEntity.getTitle());
+            targetBoard.setContent(requestEntity.getContent());
+
+            boardRepository.save(targetBoard);
+            return Optional.of(targetBoard);
+        }
+
+        return Optional.empty();
+    }
 }

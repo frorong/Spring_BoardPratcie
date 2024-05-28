@@ -1,6 +1,5 @@
 package com.example.board_practice.board;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,37 +26,27 @@ public class BoardController {
     }
 
     @PostMapping("/create")
-    org.springframework.http.ResponseEntity postCreateBoard(@RequestBody @Valid RequestEntity board) {
-        BoardEntity newBoard = new BoardEntity(board.getTitle(), board.getContent());
+    org.springframework.http.ResponseEntity postCreateBoard(@RequestBody @Valid RequestEntity requestEntity) {
+        BoardEntity createdBoard = boardServiece.saveBoard(requestEntity);
 
-        boardRepository.save(newBoard);
-
-        return org.springframework.http.ResponseEntity.ok(newBoard);
+        return org.springframework.http.ResponseEntity.ok(createdBoard);
     }
 
     @DeleteMapping("/delete/{id}")
     org.springframework.http.ResponseEntity deleteBoard(@PathVariable("id") Integer id) {
-        boardRepository.deleteById(id);
+        boardServiece.deleteBoard(id);
 
         return org.springframework.http.ResponseEntity.ok().build();
     }
 
     @PatchMapping("/update/{id}")
-    @Transactional
     org.springframework.http.ResponseEntity updateBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
-        Optional<BoardEntity> targetBoardEntity = boardRepository.findById(id);
+        Optional<BoardEntity> updatedBoard = boardServiece.updateBoard(id, boardRequest);
 
-        if (targetBoardEntity.isEmpty()) {
+        if (updatedBoard.isEmpty()) {
             return org.springframework.http.ResponseEntity.status(HttpStatus.NOT_FOUND).body("Board not found");
         }
 
-        BoardEntity boardEntity = targetBoardEntity.get();
-
-        boardEntity.setTitle(boardRequest.getTitle());
-        boardEntity.setContent(boardRequest.getContent());
-
-        boardRepository.save(boardEntity);
-
-        return org.springframework.http.ResponseEntity.ok(boardEntity);
+        return org.springframework.http.ResponseEntity.ok(updatedBoard);
     }
 }
