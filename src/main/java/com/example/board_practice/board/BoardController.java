@@ -1,5 +1,6 @@
 package com.example.board_practice.board;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,41 +8,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardRepository boardRepository;
+    BoardServiece boardServiece;
 
     @GetMapping("/list")
     List<ResponseEntity> getBoardList() {
-        return boardRepository.findAll().stream().map(item ->
-                ResponseEntity.builder()
-                        .title(item.getTitle())
-                        .content(item.getContent())
-                        .createdAt(item.getCreatedAt())
-                        .id(item.getId())
-                        .build()
-                )
-                .collect(Collectors.toList());
+        return boardServiece.findBoardList();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity getBoardDetail (@PathVariable("id") Integer id) {
-        BoardEntity board = boardRepository.findById(id).orElse(null);
-
-        return ResponseEntity.builder()
-                    .title(board.getTitle())
-                    .content(board.getContent())
-                    .createdAt(board.getCreatedAt())
-                    .id(board.getId())
-                    .build();
+    ResponseEntity getBoardDetail(@PathVariable("id") Integer id) {
+        return boardServiece.findBoardById(id);
     }
 
     @PostMapping("/create")
-    org.springframework.http.ResponseEntity postCreateBoard (@RequestBody @Valid RequestEntity board) {
+    org.springframework.http.ResponseEntity postCreateBoard(@RequestBody @Valid RequestEntity board) {
         BoardEntity newBoard = new BoardEntity(board.getTitle(), board.getContent());
 
         boardRepository.save(newBoard);
@@ -50,13 +36,14 @@ public class BoardController {
     }
 
     @DeleteMapping("/delete/{id}")
-    org.springframework.http.ResponseEntity deleteBoard (@PathVariable("id") Integer id) {
+    org.springframework.http.ResponseEntity deleteBoard(@PathVariable("id") Integer id) {
         boardRepository.deleteById(id);
 
         return org.springframework.http.ResponseEntity.ok().build();
     }
 
     @PatchMapping("/update/{id}")
+    @Transactional
     org.springframework.http.ResponseEntity updateBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
         Optional<BoardEntity> targetBoardEntity = boardRepository.findById(id);
 
