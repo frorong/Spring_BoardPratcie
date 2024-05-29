@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class RequestEntity {
+public class RequestDto {
     @NotBlank
     private String email;
     @NotBlank

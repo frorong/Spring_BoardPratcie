@@ -1,13 +1,15 @@
 package com.example.board_practice.board;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Getter
 @Builder
-public class ResponseEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResponseDto {
     private String title;
     private String content;
     private Integer id;

@@ -1,6 +1,6 @@
 package com.example.board_practice.auth;
 
-import com.example.board_practice.user.RequestEntity;
+import com.example.board_practice.user.RequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public String signup(RequestEntity request) {
+    public String signup(RequestDto request) {
         authService.saveUser(request);
         return "redirect:/login";
     }
 
     @PostMapping("/signin")
-    public Long signin(RequestEntity request) {
+    public Long signin(RequestDto request) {
         Long userId = authService.checkLogin(request);
 
         return userId;

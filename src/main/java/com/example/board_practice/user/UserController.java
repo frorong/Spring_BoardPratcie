@@ -14,7 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    ResponseEntity getUser(HttpServletRequest request, RequestEntity dto) {
+    ResponseEntity getUser(HttpServletRequest request, RequestDto dto) {
         UserEntity targetUser = userService.loadUserByUsername(dto.getEmail());
 
         return ResponseEntity.ok(targetUser);

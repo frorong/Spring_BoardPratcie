@@ -1,11 +1,15 @@
 package com.example.board_practice.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RequestEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class RequestDto {
     private String email;
     private String password;
 }

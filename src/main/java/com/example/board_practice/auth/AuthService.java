@@ -1,6 +1,6 @@
 package com.example.board_practice.auth;
 
-import com.example.board_practice.user.RequestEntity;
+import com.example.board_practice.user.RequestDto;
 import com.example.board_practice.user.UserEntity;
 import com.example.board_practice.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class AuthService {
-    private final AuthRepository authRepository;
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    Long saveUser(RequestEntity dto) {
+    Long saveUser(RequestDto dto) {
         UserEntity newUser = UserEntity.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
@@ -29,7 +28,7 @@ public class AuthService {
         return newUser.getId();
     }
 
-    Long checkLogin(RequestEntity dto) {
+    Long checkLogin(RequestDto dto) {
         Optional<UserEntity> targetUser = userRepository.findByEmail(dto.getEmail());
 
         if (targetUser.isPresent() && targetUser.get().getPassword().equals(dto.getPassword())) {
