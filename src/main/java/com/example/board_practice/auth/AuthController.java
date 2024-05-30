@@ -18,9 +18,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public String signup(RequestDto request) {
-        authService.saveUser(request);
-        return "redirect:/login";
+    public Long signup(RequestDto request) {
+        Long userId = authService.saveUser(request);
+        return userId;
     }
 
     @PostMapping("/signin")
@@ -31,9 +31,8 @@ public class AuthController {
     }
 
     @GetMapping("/signout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response,
                 SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/signin";
     }
 }
