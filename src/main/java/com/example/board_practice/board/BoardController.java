@@ -2,6 +2,7 @@ package com.example.board_practice.board;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,36 +11,36 @@ import java.util.List;
 @RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
 public class BoardController {
-    BoardServiece boardServiece;
+    BoardService boardService;
 
     @GetMapping()
-    List<ResponseEntity> getBoardList() {
-        return boardServiece.findBoardList();
+    List<ResponseDto> getBoardList() {
+        return boardService.findBoardList();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity getBoardDetail(@PathVariable("id") Integer id) {
-        return boardServiece.findBoardById(id);
+    ResponseDto getBoardDetail(@PathVariable("id") Integer id) {
+        return boardService.findBoardById(id);
     }
 
     @PostMapping()
-    org.springframework.http.ResponseEntity postBoard(@RequestBody @Valid RequestEntity requestEntity) {
-        BoardEntity createdBoard = boardServiece.saveBoard(requestEntity);
+    ResponseEntity<BoardEntity> postBoard(@RequestBody @Valid RequestEntity requestEntity) {
+        BoardEntity createdBoard = boardService.saveBoard(requestEntity);
 
         return org.springframework.http.ResponseEntity.ok(createdBoard);
     }
 
     @DeleteMapping("/{id}")
-    org.springframework.http.ResponseEntity deleteBoard(@PathVariable("id") Integer id) {
-        boardServiece.deleteBoard(id);
+    ResponseEntity deleteBoard(@PathVariable("id") Integer id) {
+        boardService.deleteBoard(id);
 
-        return org.springframework.http.ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}")
-    org.springframework.http.ResponseEntity patchBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
-        BoardEntity updatedBoard = boardServiece.updateBoard(id, boardRequest);
+    ResponseEntity patchBoard(@PathVariable("id") Integer id, @RequestBody @Valid RequestEntity boardRequest) {
+        BoardEntity updatedBoard = boardService.updateBoard(id, boardRequest);
 
-        return org.springframework.http.ResponseEntity.ok(updatedBoard);
+        return ResponseEntity.ok(updatedBoard);
     }
 }
